@@ -116,7 +116,7 @@ function showList(userJson){
 
     $(".tbody").html(html);
     }
-  console.log(html);
+  //console.log(html);
   let pageNum=userJson.pageNum;
 
   let pageControl = "<a class='a_page' id='previous' href='#'>上一页</a>";
@@ -163,6 +163,28 @@ function enter(c){
   }
 
 }
+
+function getPic(){
+    alert(1);
+    $.ajax({
+    type:"GET",
+    url:"http://172.29.66.141/DistributedNetDisk/public/index.php?s=index/index/showPic&&username=awei",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    data:{
+      //"username":username,
+    },
+    success:function (res) {
+        console.log("Success" + res);
+
+    },complete:function (res) {
+
+        console.log("Complete" + res.responseText);
+
+    }
+  });
+}
+
 $(document).ready(function(){
   $.ajax({
     type:"GET",
