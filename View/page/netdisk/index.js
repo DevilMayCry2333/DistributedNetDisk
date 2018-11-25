@@ -1,91 +1,93 @@
 
-var json_uersfile={
-  "username":"awei",
-  "pageNum":1,
-  "pageid":1,
-  "directory":[
-    {
-      "name":"NewFolder",
-      "type":"dir",
-      "extension":"",
-      "size":"-",
-      "date":"2018-8-19 20:16:59"
-
-    },
-    {
-      "name":"Movies",
-      "type":"dir",
-      "extension":"",
-      "size":"-",
-      "date":"2018-8-19 20:16:59"
-    },
-    {
-      "name":"THe Hell Song",
-      "type":"mus",
-      "extension":".mp3",
-      "size":"2.5M",
-      "crc":"",
-      "date":"2018-8-19 20:16:59"
-    },
-    {
-      "name":"逃学威龙",
-      "type":"mov",
-      "extension":".avi",
-      "size":"465.5M",
-      "crc":"",
-      "date":"2018-8-19 20:16:59"
-    },
-    {
-      "name":"readme",
-      "type":"doc",
-      "extension":".txt",
-      "size":"1.5K",
-      "crc":"",
-      "date":"2018-8-19 20:16:59"
-    },
-    {
-      "name":"springMVC",
-      "type":"com",
-      "extension":".rar",
-      "size":"54.6K",
-      "crc":"",
-      "date":"2018-8-19 20:16:59"
-    },
-    {
-      "name":"springMVC",
-      "type":"com",
-      "extension":".rar",
-      "size":"54.6K",
-      "crc":"",
-      "date":"2018-8-19 20:16:59"
-    },
-    {
-      "name":"springMVC",
-      "type":"com",
-      "extension":".rar",
-      "size":"54.6K",
-      "crc":"",
-      "date":"2018-8-19 20:16:59"
-    },
-    {
-      "name":"springMVC",
-      "type":"com",
-      "extension":".rar",
-      "size":"54.6K",
-      "crc":"",
-      "date":"2018-8-19 20:16:59"
-    },
-    {
-      "name":"spring",
-      "type":"pic",
-      "extension":".png",
-      "size":"54.6K",
-      "crc":"",
-      "date":"2018-8-19 20:16:59"
-    },
-  ],
-
-};
+//var json_uersfile={
+//   "username":"awei",
+//   "pageNum":1,
+//   "pageid":1,
+//   "directory":[
+//     {
+//       "name":"NewFolder",
+//       "type":"dir",
+//       "extension":"",
+//       "size":"-",
+//       "date":"2018-8-19 20:16:59"
+//
+//     },
+//     {
+//       "name":"Movies",
+//       "type":"dir",
+//       "extension":"",
+//       "size":"-",
+//       "date":"2018-8-19 20:16:59"
+//     },
+//     {
+//       "name":"THe Hell Song",
+//       "type":"mus",
+//       "extension":".mp3",
+//       "size":"2.5M",
+//       "crc":"",
+//       "date":"2018-8-19 20:16:59"
+//     },
+//     {
+//       "name":"逃学威龙",
+//       "type":"mov",
+//       "extension":".avi",
+//       "size":"465.5M",
+//       "crc":"",
+//       "date":"2018-8-19 20:16:59"
+//     },
+//     {
+//       "name":"readme",
+//       "type":"doc",
+//       "extension":".txt",
+//       "size":"1.5K",
+//       "crc":"",
+//       "date":"2018-8-19 20:16:59"
+//     },
+//     {
+//       "name":"springMVC",
+//       "type":"com",
+//       "extension":".rar",
+//       "size":"54.6K",
+//       "crc":"",
+//       "date":"2018-8-19 20:16:59"
+//     },
+//     {
+//       "name":"springMVC",
+//       "type":"com",
+//       "extension":".rar",
+//       "size":"54.6K",
+//       "crc":"",
+//       "date":"2018-8-19 20:16:59"
+//     },
+//     {
+//       "name":"springMVC",
+//       "type":"com",
+//       "extension":".rar",
+//       "size":"54.6K",
+//       "crc":"",
+//       "date":"2018-8-19 20:16:59"
+//     },
+//     {
+//       "name":"springMVC",
+//       "type":"com",
+//       "extension":".rar",
+//       "size":"54.6K",
+//       "crc":"",
+//       "date":"2018-8-19 20:16:59"
+//     },
+//     {
+//       "name":"spring",
+//       "type":"pic",
+//       "extension":".png",
+//       "size":"54.6K",
+//       "crc":"",
+//       "date":"2018-8-19 20:16:59"
+//     },
+//   ],
+//
+// };
+var json_uersfile={};
+var userdir="";
 var userJson;
 function showList(userJson){
   var html="";
@@ -168,14 +170,17 @@ function getPic(){
     alert(1);
     $.ajax({
     type:"GET",
-    url:"http://172.29.66.141/DistributedNetDisk/public/index.php?s=index/index/showPic&&username=awei",
+    url:"http://172.29.66.141/DistributedNetDisk/public/index.php?s=index/index/showPic",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data:{
-      //"username":username,
+      "username":"awei",
     },
     success:function (res) {
-        console.log("Success" + res);
+        console.log(res);
+
+        json_uersfile=res;
+        showList(res);
 
     },complete:function (res) {
 
@@ -188,13 +193,15 @@ function getPic(){
 $(document).ready(function(){
   $.ajax({
     type:"GET",
-    url:"http://localhost/DistributedNetDisk/public/index.php?s=index/index/showpage",
+    url:"http://localhost/DistributedNetDisk/public/index.php?s=index/index/showDefault",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data:{
+      "username":"awei",
     },
     success:function (res) {
         console.log("Success" + res);
+        showList(res);
 
     },complete:function (res) {
 
@@ -203,9 +210,9 @@ $(document).ready(function(){
     }
 });
 
-  userJson=json_uersfile;
-  var f1=json_uersfile;
-  showList(f1);
+  // userJson=json_uersfile;
+  // var f1=json_uersfile;
+  // showList(f1);
   $("#control_checkbox").on("click", function(){
     if($(this).is(":checked")){
       allCheck();
