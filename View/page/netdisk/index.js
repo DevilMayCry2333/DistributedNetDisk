@@ -170,7 +170,7 @@ function getPic(){
     alert(1);
     $.ajax({
     type:"GET",
-    url:"http://awei.com/DistributedNetDisk/public/index.php?s=index/index/showPic",
+    url:"http://awei335sv.com/DistributedNetDisk/public/index.php?s=index/index/showPic",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data:{
@@ -193,7 +193,7 @@ function getPic(){
 $(document).ready(function(){
   $.ajax({
     type:"GET",
-    url:"http://awei.com/DistributedNetDisk/public/index.php?s=index/index/showDefault",
+    url:"http://awei335sv.com/DistributedNetDisk/public/index.php?s=index/index/showDefault",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data:{
