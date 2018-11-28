@@ -35,7 +35,9 @@ a{
 .welcome{
   margin-left: 90rem;
 }
-
+#logo{
+  height: 8Frem;
+}
 .btn-upload{
   color: white;
   background-color:#3b8cff;
@@ -49,6 +51,9 @@ a{
   border-color:#3b8cff;
   margin-top:1rem;
   margin-left: 2rem;
+}
+form{
+  float: left;
 }
 .form-group{
   margin-top:1rem;
