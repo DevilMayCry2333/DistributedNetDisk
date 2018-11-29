@@ -31,20 +31,23 @@
 							<h1 class="headcolor">欢迎注册小蓝鸡账号</h1>
 						</div>
 						<form action="#" method="get">
-	               	    	<div class="form-group column text-center">
+	               	    	<div class="form-group column">
 	               	    		<div>
-									<input class="col-sm-5 input" id="name" type="text" placeholder="用户名">
+									<input class="col-sm-4 input" id="username" name="username" type="text" placeholder="用户账号">
+									<span class="span" id="userspan">账号只能为手机号或邮箱</span>
 								</div>
 								<div>
-									<input class="col-sm-5 input" id="password" type="password" placeholder="密码">
+									<input class="col-sm-4 input" id="password" type="password" placeholder="密码">
+									<span class="span" id="passspan">密码为6-255位的字符</span>
 								</div>
 								<div>
-									<input class="col-sm-5 input" id="check" type="password" placeholder="确认密码">
+									<input class="col-sm-4 input" id="check" type="password" placeholder="确认密码">
+									<span class="span" id="checkspan">密码错误</span>
 								</div>
 
 								</div>
 								<div class="text-center">
-									<button id="register" onclick="regist()" class="btn btn-primary btn-color col-sm-5 ">注册</button>
+									<button id="register" onmouseenter="func()" type="submit" class="btn btn-primary btn-color col-sm-4 ">注册</button>
 								</div>
 							</div>
               </form>

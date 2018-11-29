@@ -33,14 +33,15 @@
               <form action="http://localhost/DistributedNetDisk/public/index.php/index/LoginController/login" method="post" class="subscribe-form">
          	    	<div class="row form-section">
 
-								<div class="col-md-7 col-sm-7 col-xs-7">
+								<div class="col-md-8 col-sm-7 col-xs-7">
 									  <input name="username" id="username" type="text" class="col-sm-6 input" placeholder="请输入账号" required/>
+									  <span class="span" id="userspan">账号只能为手机号或邮箱</span>
 									  <br/>
 									  <input name="password" id="password" type="password" class="col-sm-6 input" placeholder="请输入密码" required/>
 
 					  			</div>
-								<div class="col-md-5 col-sm-5 col-xs-5 text top">
-									<button id="login" type="submit" onclick="userLogin()" class="btn btn-primary btn-color col-md-7">登录</button>
+								<div class="col-md-6 col-sm-5 col-xs-5 text top">
+									<button id="login" type="submit" class="btn btn-primary btn-color col-md-7">登录</button>
 								</div>
 
 							</div>

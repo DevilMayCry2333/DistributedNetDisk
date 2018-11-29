@@ -15,7 +15,7 @@ a{
   color: #656369;
 }
 .diskblock{
-  opacity:0.75;
+  opacity:0.75 ;
   width: 134rem ;
   height: 60rem;
   background: WHITE;
@@ -116,4 +116,8 @@ input{
 }
 td{
   /* background: blue; */
+}
+.span{
+  display: none;
+  color: black;
 }
