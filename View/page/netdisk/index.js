@@ -1,7 +1,9 @@
-var json_uersfile={};
+var username;
+window.json_user;
 var userdir="";
 var userJson;
 function showList(userJson){
+  window.json_user=userJson;
   var html="";
   for(let i=0;i<userJson.directory.length;i++){
     var img="";
@@ -26,18 +28,16 @@ function showList(userJson){
     else{
       img="<image src=../../image/file.png class='img'/>";
     }
-    html+="<tr onclick='enter("+i+")'onmouseover='mouseover("+i+")'  onmouseout='mouseout("+i+")'id='row"+i+"'><td><input class='checkbox' type='checkbox' value='"+i+"'/></td><td>"+img+"<a>"+userJson.directory[i].name+userJson.directory[i].extension+"</a>"+"</td>"+"<td >"+userJson.directory[i].size+"</td><td>"+userJson.directory[i].date+"</td></tr>";
+    html+="<tr onclick='enter("+i+")'onmouseover='mouseover("+i+")'  onmouseout='mouseout("+i+")'id='row"+i+"'><td><input class='checkbox' type='checkbox' value='"+i+"'/></td><td>"+img+"<a>"+userJson.directory[i].name+"</a>"+"</td>"+"<td >"+userJson.directory[i].size+"</td><td>"+userJson.directory[i].date+"</td></tr>";
 
-    $(".tbody").html(html);
+
     }
+    $(".tbody").html(html);
   //console.log(html);
   let pageNum=userJson.pageNum;
 
   let pageControl = "<a class='a_page' id='previous' href='#'>上一页</a>";
-  // for(let j=1;j<=pageNum;j++){
-  //   pageControl+="<a class='a_page' href='"+j+"'>"+j+"</a>";
-  //
-  // }
+
     pageControl+="<a class='a_page' id='next' href='##'>下一页</a>";
     pageControl+="<span>当前页数："+userJson.pageid+"/"+pageNum+"</span>";
     $("#pages").html(pageControl);
@@ -68,9 +68,31 @@ function mouseout(c){
 
 }
 function enter(c){
-  if(userJson.directory[c].type=="dir"){
+  if(window.json_user.directory[c].type=="dir"){
     alert("进入目录");
     // 请求向后端请求当前目录
+    console.log(window.json_user.directory[c].name);
+    $.ajax({
+      type:"GET",
+      url:"http://localhost/DistributedNetDisk/public/index.php/index/index/enterDir",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data:{
+        "username":username,
+        'curdir':window.json_user.directory[c].name,
+      },
+      success:function (res) {
+
+          console.log("Success" + res);
+          showList(res);
+
+      },complete:function (res) {
+        //let json=JSON.parse(res.responseText);
+        //console.log(json);
+       console.log("Complete" + res.responseText);
+
+      }
+  });
   }
   else{
     //调用当前文件的下载
@@ -78,54 +100,136 @@ function enter(c){
 
 }
 
-function getPic(){
-    alert(1);
-    $.ajax({
-    type:"GET",
-    url:"http://localhost/DistributedNetDisk/public/index.php?s=index/index/showPic",
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    data:{
-      "username":"awei",
-    },
-    success:function (res) {
-        console.log(res);
-        json_uersfile=res;
-        showList(res);
-
-    },complete:function (res) {
-
-        console.log("Complete" + res.responseText);
-
-    }
-  });
-}
-
-$(document).ready(function(){
-//  alert(json_uersfile);
-    showList(json_uersfile);
+function getFile(type){
   $.ajax({
     type:"GET",
-    url:"http://localhost/DistributedNetDisk/public/index.php?s=index/index/showDefault",
+    url:"http://localhost/DistributedNetDisk/public/index.php/index/index/"+type,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data:{
-      "username":"awei",
+      "username":username,
+      'curdir':window.curdir,
     },
     success:function (res) {
+
         console.log("Success" + res);
         showList(res);
 
     },complete:function (res) {
-
-        console.log("Complete" + res.responseText);
+      //let json=JSON.parse(res.responseText);
+      //console.log(json);
+     console.log("Complete" + res.responseText);
 
     }
 });
+}
 
-  // userJson=json_uersfile;
-  // var f1=json_uersfile;
-  // showList(f1);
+function logout(){
+
+  //$.removeCookie('usercookie',{ path: '/'});
+  window.location.href='http://localhost/netDisk_View/DistributedNetDisk_backend/View/page/login/index.html';
+
+}
+
+function fileUpload(){
+  var files = $('#file').prop('files');
+    var data = new FormData();
+    data.append("file",$("#file")[0].files[0])
+    data.append("username",username);
+    data.append("curdir", window.curdir);
+    $.ajax({
+          type: 'POST',
+          url: "http://localhost/DistributedNetDisk/public/index.php/upload",
+          data: data,
+          cache: false,
+          processData: false,
+          contentType: false,
+          success: function(res) {
+                  alert(res);
+                  getFile("showDefault");
+
+      }
+    });
+
+
+}
+function newFolder(){
+  // var oDiv=$('<div>');
+   // $('body').append(oDiv);
+   $("#new").attr('disabled','disabled');
+   var oLogin=$('<div id="newdiv"><span style="font-size:1.8rem;">新建文件夹:<input type="text" id="folderName"/></span><button id="submit" class="btn btn-primary" style="background-color:#3b8cff;border-color:#3b8cff">新建文件夹</button><button class="btn" id="close">关闭</button>');//此功能就相当于body中注释的代码
+
+   $('body').append(oLogin);
+       oLogin.css('position','absolute');
+       oLogin.css('left','50rem');
+       oLogin.css('top','10rem');
+
+       $("#folderName").css('position','absolute');
+       $("#folderName").css('left','-40rem');
+       $("#folderName").css('top','0rem');
+       $("#folderName").css('z-index','1000');
+       $("#submit").css('position','absolute');
+       $("#submit").css('left','10rem');
+       $("#submit").css('top','5rem');
+       $("#submit").css('z-index','1000');
+       $("#close").css('position','absolute');
+       $("#close").css('left','23rem');
+       $("#close").css('top','5rem');
+       $("#close").css('z-index','1000');
+        oLogin.css('z-index','999');
+        oLogin.css('background','white');
+        oLogin.css('width','30%');
+        oLogin.css('height','10rem');
+        oLogin.css('border-radius','1rem');
+        oLogin.css('opacity','0.75');
+
+   $("#close").click(function(){
+
+    oLogin.remove();
+     $("#new").removeAttr('disabled','disabled');
+   })
+   $("#submit").click(function(){
+
+     $.ajax({
+       type:"GET",
+       url:"http://localhost/DistributedNetDisk/public/index.php/index/NewFolder/newFolder",
+       contentType: "application/json; charset=utf-8",
+       dataType: "json",
+       data:{
+         "username":username,
+         "curdir":  window.curdir,
+         "newFolder":$("#folderName").val()
+       },
+       success:function(res) {
+        alert('newFilder:'+res);
+        getFile('showDefault');
+      },
+      complete:function(res){
+        alert(res.responseText);
+        getFile('showDefault');
+      }
+
+     })
+
+
+     oLogin.remove();
+     $("#new").removeAttr('disabled','disabled');
+   })
+
+
+}
+$(document).ready(function(){
+  console.log("$cookie:"+$.cookie('usercookie'));
+  if($.cookie('usercookie')==null){
+    alert("请先登录！");
+    window.location.href='http://localhost/netDisk_View/DistributedNetDisk_backend/View/page/login/index.html';
+  }
+  window.username=$.cookie('usercookie');
+  window.curdir="";
+  $("#username").html(username);
+  //console.log(window.username);
+  getFile('showDefault');
+
   $("#control_checkbox").on("click", function(){
     if($(this).is(":checked")){
       allCheck();
@@ -134,10 +238,6 @@ $(document).ready(function(){
     }
 
   });
-
-
-
-
 
 
 

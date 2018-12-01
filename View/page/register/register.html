@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="../../css/templatemo-style.css">
 
   <script type="text/javascript" src="../../js/jquery.js"></script>
+	<script type="text/javascript" src="../../js/jquery.cookie.js"></script>
   <script type="text/javascript" src="../../js/modernizr.custom.86080.js"></script>
   <script type="text/javascript" src="index.js"></script>
 
@@ -30,14 +31,14 @@
 						<div class="text-center">
 							<h1 class="headcolor">欢迎注册小蓝鸡账号</h1>
 						</div>
-						<form action="#" method="get">
+						<form action="http://localhost/DistributedNetDisk/public/index.php/index/Register/register" method="post">
 	               	    	<div class="form-group column">
 	               	    		<div>
 									<input class="col-sm-4 input" id="username" name="username" type="text" placeholder="用户账号">
 									<span class="span" id="userspan">账号只能为手机号或邮箱</span>
 								</div>
 								<div>
-									<input class="col-sm-4 input" id="password" type="password" placeholder="密码">
+									<input class="col-sm-4 input" id="password" type="password" name="password" placeholder="密码">
 									<span class="span" id="passspan">密码为6-255位的字符</span>
 								</div>
 								<div>
@@ -47,7 +48,7 @@
 
 								</div>
 								<div class="text-center">
-									<button id="register" onmouseenter="func()" type="submit" class="btn btn-primary btn-color col-sm-4 ">注册</button>
+									<button id="register" onmouseenter="" type="submit" class="btn btn-primary btn-color col-sm-4 ">注册</button>
 								</div>
 							</div>
               </form>

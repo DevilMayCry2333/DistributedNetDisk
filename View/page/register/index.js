@@ -2,13 +2,11 @@ var userflag=0;
 var passflag=0;
 var checkflag=0;
 
-function func(){
-  alert(1);
-}
+
 
 $(document).ready(function(){
 
- 
+
   $("#register").attr("disabled",true);
 
   $("#username").blur(function(){
@@ -16,7 +14,7 @@ $(document).ready(function(){
     var reg1= /^1\d{10}$/;
     var reg2=/^(\w-*\.*)+@(\w-?)+(\.\w{2,4})+$/;
     if(username)
-      if(!reg1.test(username) && !reg2.test(username)){ 
+      if(!reg1.test(username) && !reg2.test(username)){
         $("#userspan").show();
         userflag=0;
         $("#register").attr("disabled",true);
@@ -34,7 +32,7 @@ $(document).ready(function(){
     var password=$("#password").val();
     var reg=/^\w{6,255}$/
     if(password)
-      if(!reg.test(password)){ 
+      if(!reg.test(password)){
         $("#passspan").show();
         passflag=0;
         $("#register").attr("disabled",true);
@@ -52,7 +50,7 @@ $(document).ready(function(){
     var password=$("#password").val();
     var check=$("#check").val();
     if(check)
-      if(password!=check){ 
+      if(password!=check){
         $("#checkspan").show();
         checkflag=0;
         $("#register").attr("disabled",true);
@@ -67,7 +65,7 @@ $(document).ready(function(){
   });
 
   // $("#register").mouseenter(function(){
-  //   alert(1);
+  //
   //   if (userflag==1 && passflag==1 && checkflag==1) {
   //     $('#register').removeAttr("disabled");
   //   }
