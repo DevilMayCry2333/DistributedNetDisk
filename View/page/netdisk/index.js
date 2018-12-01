@@ -68,6 +68,7 @@ function mouseout(c){
 
 }
 function enter(c){
+  window.curdir=window.json_user.directory[c].name;
   if(window.json_user.directory[c].type=="dir"){
     alert("进入目录");
     // 请求向后端请求当前目录
@@ -79,7 +80,7 @@ function enter(c){
       dataType: "json",
       data:{
         "username":username,
-        'curdir':window.json_user.directory[c].name,
+        'curdir':window.curdir,
       },
       success:function (res) {
 
@@ -154,12 +155,14 @@ function fileUpload(){
 
 }
 function newFolder(){
+  console.log(window.curdir);
   // var oDiv=$('<div>');
    // $('body').append(oDiv);
    $("#new").attr('disabled','disabled');
    var oLogin=$('<div id="newdiv"><span style="font-size:1.8rem;">新建文件夹:<input type="text" id="folderName"/></span><button id="submit" class="btn btn-primary" style="background-color:#3b8cff;border-color:#3b8cff">新建文件夹</button><button class="btn" id="close">关闭</button>');//此功能就相当于body中注释的代码
 
    $('body').append(oLogin);
+
        oLogin.css('position','absolute');
        oLogin.css('left','50rem');
        oLogin.css('top','10rem');
