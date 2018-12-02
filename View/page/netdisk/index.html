@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content=··"width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <!-- <link type="text/css" rel="styleSheet"  href="../../css/bootstrap.min.css" /> -->
+    <link type="text/css" rel="styleSheet"  href="index.css" />
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <!-- <script type="text/javascript" src="../../js/particles.js"></script> -->
+    <!-- <script type="text/javascript" src="../../js/app.js"></script> -->
+    <title>ChickenDisk！游开挖掘机</title>
+  </head>
+
+  <body>
+
+    <div class="top">
+      <a  href="#"><image src="../../image/logo1.jpg" style="height:7rem; margin-left:1rem;width:16rem;" /></a>
+      <span class="welcome">Welcome to ChickenDisk!</span>
+      <span id = "username"></span>
+      <span><a id="logout" onclick="logout()">登出</a></span>
+    </div>
+
+
+    <div class="body">
+
+
+
+      <div class="side">
+        <ul class="nav nav-default">
+          <li class="active">
+          <a href="#" onclick="getFile('showDefault')">全部文件</a>
+          </li>
+          <li ><a href="#" onclick="getFile('showPic')">图片</a></li>
+          <li ><a href="#" onclick="getFile('showDoc')">文档</a></li>
+          <li ><a href="#" onclick="getFile('showMov')">视频</a></li>
+          <li ><a href="#" onclick="getFile('showMus')">音乐</a></li>
+          <li ><a href="#" onclick="getFile('showOth')">其他</a></li>
+        </ul>
+      </div>
+
+
+      <div class="diskblock">
+
+
+
+        <form class="form-inline" role="form" id="upload" action="">
+
+          <span class="fileinput-button btn btn-upload">
+          <span class="glyphicon glyphicon-open">&ensp;上传文件</span>
+           <input type="file" name="file" id="file" onchange="fileUpload()">
+         </span>
+          </form>
+            <form class="form-inline" role="form">
+          <button type="button_save" class="btn btn-all"name="button"><span class="glyphicon glyphicon-save">&ensp;下载</span></button>
+          </form>
+            <form class="form-inline" role="form">
+          <button type="button_new" class="btn btn-all"name="button" id="new" onclick="newFolder()"><span class="glyphicon glyphicon-folder-close">&ensp;新建文件夹</span></button>
+            </form>
+            <form class="form-inline" role="form">
+          	<div class="form-group">
+          		<label class="sr-only" for="name">名称</label>
+          		<input type="text" class="form-control" id="name"
+          			   placeholder="请输入名称">
+              <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+          	</div>
+            </form>
+
+        <div class="filelist">
+          <table class="table">
+            <thead class="thead">
+            <th> <input type="checkbox" class="checkbox" id="control_checkbox"/></th>
+              <th class="filename">文件名</th>
+              <th class="filesize">大小</th>
+              <th class="filedate">修改日期 </th>
+
+            </thead>
+            <tbody class="tbody"></tbody>
+          </table>
+          <div id="pages"></div>
+        </div>
+      </div>
+
+
+    </div>
+  </body>
+
+
+</html>
