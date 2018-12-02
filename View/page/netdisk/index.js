@@ -69,8 +69,9 @@ function mouseout(c){
 }
 function enter(c){
   window.curdir=window.json_user.directory[c].name;
+  console.log("enterdirectory:"+window.curdir);
   if(window.json_user.directory[c].type=="dir"){
-    alert("进入目录");
+    console.log("进入目录");
     // 请求向后端请求当前目录
     console.log(window.json_user.directory[c].name);
     $.ajax({
@@ -102,6 +103,11 @@ function enter(c){
 }
 
 function getFile(type){
+  if(type=="showDefault"){
+    window.curdir="";
+  }
+
+  console.log("当前目录：/"+window.curdir);
   $.ajax({
     type:"GET",
     url:"http://localhost/DistributedNetDisk/public/index.php/index/index/"+type,
