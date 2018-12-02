@@ -1,2 +1,2 @@
-# DistributedNetDisk_backend
-分布式网盘系统后端
+# DistributedNetDisk
+分布式的网盘系统
