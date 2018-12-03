@@ -1,8 +1,8 @@
 var username;
 window.json_user;
-var userdir="";
-var userJson;
+
 function showList(userJson){
+  console.log(userJson.directory.length);
   window.json_user=userJson;
   var html="";
   for(let i=0;i<userJson.directory.length;i++){
@@ -28,9 +28,9 @@ function showList(userJson){
     else{
       img="<image src=../../image/file.png class='img'/>";
     }
-    html+="<tr onclick='enter("+i+")'onmouseover='mouseover("+i+")'  onmouseout='mouseout("+i+")'id='row"+i+"'><td><input class='checkbox' type='checkbox' value='"+i+"'/></td><td>"+img+"<a>"+userJson.directory[i].name+"</a>"+"</td>"+"<td >"+userJson.directory[i].size+"</td><td>"+userJson.directory[i].date+"</td></tr>";
+    // html+="<tr onclick='enter("+i+")'onmouseover='mouseover("+i+")'  onmouseout='mouseout("+i+")'id='row"+i+"'><td><input class='checkbox' type='checkbox' value='"+userJson.directory[i].name+"'/></td><td>"+img+"<a>"+userJson.directory[i].name+"</a>"+"</td>"+"<td >"+userJson.directory[i].size+"</td><td>"+userJson.directory[i].date+"</td></tr>";
 
-
+      html+="<tr onmouseover='mouseover("+i+")'  onmouseout='mouseout("+i+")'id='row"+i+"'><td><input class='checkbox' type='checkbox' value='"+userJson.directory[i].name+"'/></td><td onclick='enter("+i+")'>"+img+"<a>"+userJson.directory[i].name+"</a>"+"</td>"+"<td >"+userJson.directory[i].size+"</td><td>"+userJson.directory[i].date+"</td></tr>";
     }
     $(".tbody").html(html);
   //console.log(html);
@@ -68,20 +68,27 @@ function mouseout(c){
 
 }
 function enter(c){
-  window.curdir=window.json_user.directory[c].name;
-  console.log("enterdirectory:"+window.curdir);
-  if(window.json_user.directory[c].type=="dir"){
-    console.log("进入目录");
-    // 请求向后端请求当前目录
     console.log(window.json_user.directory[c].name);
+
+  if(window.json_user.directory[c].type=="dir"){
+      if(window.curdir==""){
+          window.curdir=window.json_user.directory[c].name;
+      }
+      else{
+          window.curdir=window.curdir+'/'+window.json_user.directory[c].name;
+      }
+      //window.curdir=window.json_user.directory[c].name;
+    //alert("进入目录");
+    // 请求向后端请求当前目录
+    console.log("进入目录，当前目录："+window.curdir);
     $.ajax({
       type:"GET",
-      url:"http://localhost/DistributedNetDisk/public/index.php/index/index/enterDir",
+      url:"https://hifafu.com/DistributedNetDisk/public/index.php/index/index/enterDir",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       data:{
-        "username":username,
-        'curdir':window.curdir,
+        "username":encodeURI(username),
+        'curdir':encodeURI(window.curdir),
       },
       success:function (res) {
 
@@ -97,20 +104,43 @@ function enter(c){
   });
   }
   else{
-    //调用当前文件的下载
+      console.log("点击文件下载当前文件夹："+window.curdir);
+      $.ajax({
+          type:"GET",
+          url:"https://hifafu.com/DistributedNetDisk/public/index.php/index/FileDownloadCtl/download_file",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+
+          data:{
+              "username":encodeURI(username),
+              "cnt":"1",
+              'curdir':encodeURI(window.curdir),
+              'userfile1':encodeURI(window.json_user.directory[c].name),
+          },
+          success:function (res) {
+
+              console.log("Success" + res);
+              //window.open(res);
+
+          },complete:function (res) {
+              console.log(res.responseText);
+             // window.open(res.responseText);
+
+
+          }
+      });
   }
 
 }
 
 function getFile(type){
-  if(type=="showDefault"){
-    window.curdir="";
-  }
-
-  console.log("当前目录：/"+window.curdir);
+      if(type=="showDefault"){
+      window.curdir="";
+      }
+    console.log("当前目录：/"+window.curdir);
   $.ajax({
     type:"GET",
-    url:"http://localhost/DistributedNetDisk/public/index.php/index/index/"+type,
+    url:"https://hifafu.com/DistributedNetDisk/public/index.php/index/index/"+type,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data:{
@@ -119,14 +149,17 @@ function getFile(type){
     },
     success:function (res) {
 
+        //alert(1);
         console.log("Success" + res);
-        showList(res);
+        //showList(res);
 
     },complete:function (res) {
-      //let json=JSON.parse(res.responseText);
-      //console.log(json);
-     console.log("Complete" + res.responseText);
 
+          //let json=JSON.parse(res.responseText);
+          //console.log(json);
+          console.log("Complete" + res);
+          console.log(JSON.parse(res.responseText));
+          showList(JSON.parse(res.responseText));
     }
 });
 }
@@ -134,11 +167,12 @@ function getFile(type){
 function logout(){
 
   //$.removeCookie('usercookie',{ path: '/'});
-  window.location.href='http://localhost/netDisk_View/DistributedNetDisk_backend/View/page/login/index.html';
+  window.location.href='https://hifafu.com/DistributedNetDisk/public/static/View/page/login/index.html';
 
 }
 
 function fileUpload(){
+    console.log("上传文件，当前目录:"+window.curdir);
   var files = $('#file').prop('files');
     var data = new FormData();
     data.append("file",$("#file")[0].files[0])
@@ -146,7 +180,7 @@ function fileUpload(){
     data.append("curdir", window.curdir);
     $.ajax({
           type: 'POST',
-          url: "http://localhost/DistributedNetDisk/public/index.php/upload",
+          url: "https://hifafu.com/DistributedNetDisk/public/index.php/upload",
           data: data,
           cache: false,
           processData: false,
@@ -155,13 +189,48 @@ function fileUpload(){
                   alert(res);
                   getFile("showDefault");
 
-      }
+      },complete:function (res) {
+              console.log(res.responseText);
+              getFile("showDefault");
+        }
     });
 
 
 }
+
+function download() {
+    var checkedArr = [];
+    $("input[class='checkbox']:checked").each(function() {
+        checkedArr.push($(this).val());
+    });
+    var download_data = new FormData();
+    for(var i=1;i<=checkedArr.length;i++){
+        download_data.append('userfile'+i,encodeURI(checkedArr[i-1]));
+        console.log(checkedArr[i-1]);
+    }
+    download_data.append("username",encodeURI(username));
+    download_data.append("curdir", encodeURI(window.curdir));
+    download_data.append('cnt',encodeURI(checkedArr.length));
+    console.log(download_data.get('cnt'));
+    $.ajax({
+        type: 'POST',
+        url: "https://hifafu.com/DistributedNetDisk/public/index.php/download_file",
+
+        processData: false,
+        contentType: false,
+        data: download_data,
+
+
+        success: function(res) {
+           // window.open(res);
+        },complete:function (res) {
+            window.open(res.responseText);
+        }
+    })
+
+}
 function newFolder(){
-  console.log(window.curdir);
+  console.log("新建文件夹目录："+window.curdir);
   // var oDiv=$('<div>');
    // $('body').append(oDiv);
    $("#new").attr('disabled','disabled');
@@ -201,7 +270,7 @@ function newFolder(){
 
      $.ajax({
        type:"GET",
-       url:"http://localhost/DistributedNetDisk/public/index.php/index/NewFolder/newFolder",
+       url:"https://hifafu.com/DistributedNetDisk/public/index.php/index/NewFolder/newFolder",
        contentType: "application/json; charset=utf-8",
        dataType: "json",
        data:{
@@ -210,11 +279,14 @@ function newFolder(){
          "newFolder":$("#folderName").val()
        },
        success:function(res) {
-        alert('newFilder:'+res);
+        //alert('newFilder:'+res);
+           console.log("新建文件夹请求成功返回："+res);
         getFile('showDefault');
       },
       complete:function(res){
-        alert(res.responseText);
+           //console.log(window.curdir);
+          console.log("新建文件夹请求完成返回："+res.responseText);
+        //alert(res.responseText);
         getFile('showDefault');
       }
 
@@ -229,10 +301,13 @@ function newFolder(){
 }
 $(document).ready(function(){
   console.log("$cookie:"+$.cookie('usercookie'));
+
   if($.cookie('usercookie')==null){
     alert("请先登录！");
-    window.location.href='http://localhost/netDisk_View/DistributedNetDisk_backend/View/page/login/index.html';
+    window.location.href='https://hifafu.com/DistributedNetDisk/public/static/View/page/login/index.html';
   }
+
+
   window.username=$.cookie('usercookie');
   window.curdir="";
   $("#username").html(username);
@@ -250,102 +325,5 @@ $(document).ready(function(){
 
 
 
-})
+});
 
-
-
-
-
-
-
-
-
-
-
-// var json_uersfile={
-//   "username":"awei",
-//   "pageNum":1,
-//   "pageid":1,
-//   "directory":[
-//     {
-//       "name":"NewFolder",
-//       "type":"dir",
-//       "extension":"",
-//       "size":"-",
-//       "date":"2018-8-19 20:16:59"
-//
-//     },
-//     {
-//       "name":"Movies",
-//       "type":"dir",
-//       "extension":"",
-//       "size":"-",
-//       "date":"2018-8-19 20:16:59"
-//     },
-//     {
-//       "name":"THe Hell Song",
-//       "type":"mus",
-//       "extension":".mp3",
-//       "size":"2.5M",
-//       "crc":"",
-//       "date":"2018-8-19 20:16:59"
-//     },
-//     {
-//       "name":"逃学威龙",
-//       "type":"mov",
-//       "extension":".avi",
-//       "size":"465.5M",
-//       "crc":"",
-//       "date":"2018-8-19 20:16:59"
-//     },
-//     {
-//       "name":"readme",
-//       "type":"doc",
-//       "extension":".txt",
-//       "size":"1.5K",
-//       "crc":"",
-//       "date":"2018-8-19 20:16:59"
-//     },
-//     {
-//       "name":"springMVC",
-//       "type":"com",
-//       "extension":".rar",
-//       "size":"54.6K",
-//       "crc":"",
-//       "date":"2018-8-19 20:16:59"
-//     },
-//     {
-//       "name":"springMVC",
-//       "type":"com",
-//       "extension":".rar",
-//       "size":"54.6K",
-//       "crc":"",
-//       "date":"2018-8-19 20:16:59"
-//     },
-//     {
-//       "name":"springMVC",
-//       "type":"com",
-//       "extension":".rar",
-//       "size":"54.6K",
-//       "crc":"",
-//       "date":"2018-8-19 20:16:59"
-//     },
-//     {
-//       "name":"springMVC",
-//       "type":"com",
-//       "extension":".rar",
-//       "size":"54.6K",
-//       "crc":"",
-//       "date":"2018-8-19 20:16:59"
-//     },
-//     {
-//       "name":"spring",
-//       "type":"pic",
-//       "extension":".png",
-//       "size":"54.6K",
-//       "crc":"",
-//       "date":"2018-8-19 20:16:59"
-//     },
-//   ],
-//
-// };
