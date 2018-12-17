@@ -5,7 +5,11 @@ body {
 	font-size: 24px;
 	font-weight: 300;
 	overflow-x: hidden;
+<<<<<<< HEAD:View/css/templatemo-style.css
 
+=======
+	
+>>>>>>> master:View/css/templatemo-style.css
 }
 
 a, button {
@@ -28,11 +32,19 @@ a:focus {
 
 h1 {
 	color: #FFFFFF;
+<<<<<<< HEAD:View/css/templatemo-style.css
 	font-size: 2rem;
 }
 
 p {
 	color: #FFFFFF;
+=======
+	font-size: 2rem;	
+}
+
+p {
+	color: #FFFFFF;	
+>>>>>>> master:View/css/templatemo-style.css
 }
 
 #particles-js {
@@ -71,7 +83,11 @@ p {
     color: white;
 }
 
+<<<<<<< HEAD:View/css/templatemo-style.css
 .form-control {
+=======
+.form-control {  
+>>>>>>> master:View/css/templatemo-style.css
     width: 229px;
     color: #FFFFFF;
     border-radius: .5rem;
@@ -99,7 +115,11 @@ p {
     color: white;
 }
 
+<<<<<<< HEAD:View/css/templatemo-style.css
 .form-control2 {
+=======
+.form-control2 {  
+>>>>>>> master:View/css/templatemo-style.css
     width: 229px;
     color: #FFFFFF;
     border-radius: .5rem;
@@ -108,6 +128,7 @@ p {
     padding-top: 10px;
     padding-bottom: 10px;
     font-weight: 300;
+<<<<<<< HEAD:View/css/templatemo-style.css
 
 }
 
@@ -116,6 +137,16 @@ p {
     background-color: transparent;
     margin-bottom: 100px;
 
+=======
+    
+}
+
+.form-section {  
+    color: #FFFFFF;
+    background-color: transparent;
+    margin-bottom: 100px;
+    
+>>>>>>> master:View/css/templatemo-style.css
 }
 
 .contact_email {
@@ -125,7 +156,11 @@ p {
 	background-color: #006699;
 	border-radius: .5rem;
     border-color: white;
+<<<<<<< HEAD:View/css/templatemo-style.css
     font-weight: 300;
+=======
+    font-weight: 300; 
+>>>>>>> master:View/css/templatemo-style.css
     cursor: pointer;
     margin: 20px 0 0 10px;
     width: 220px;
@@ -198,23 +233,37 @@ p {
 }
 
 
+<<<<<<< HEAD:View/css/templatemo-style.css
 .cb-slideshow li:nth-child(1) {
     background-image: url(../img/letter_bg_01.jpg)
 }
 .cb-slideshow li:nth-child(2) {
+=======
+.cb-slideshow li:nth-child(1) { 
+    background-image: url(../img/letter_bg_01.jpg)
+}
+.cb-slideshow li:nth-child(2) { 
+>>>>>>> master:View/css/templatemo-style.css
     background-image: url(../img/letter_bg_02.jpg);
     -webkit-animation-delay: 12s;
     -moz-animation-delay: 12s;
     -o-animation-delay: 12s;
     -ms-animation-delay: 12s;
+<<<<<<< HEAD:View/css/templatemo-style.css
     animation-delay: 12s;
 }
 .cb-slideshow li:nth-child(3) {
+=======
+    animation-delay: 12s; 
+}
+.cb-slideshow li:nth-child(3) { 
+>>>>>>> master:View/css/templatemo-style.css
     background-image: url(../img/letter_bg_03.jpg);
     -webkit-animation-delay: 24s;
     -moz-animation-delay: 24s;
     -o-animation-delay: 24s;
     -ms-animation-delay: 24s;
+<<<<<<< HEAD:View/css/templatemo-style.css
     animation-delay: 24s;
 }
 .cb-slideshow li:nth-child(4) {
@@ -232,6 +281,25 @@ p {
 
 
 @keyframes imageAnimation {
+=======
+    animation-delay: 24s; 
+}
+.cb-slideshow li:nth-child(4) { 
+    background-image: url(../img/letter_bg_01.jpg);
+    animation-delay: 36s; 
+}
+.cb-slideshow li:nth-child(5) { 
+    background-image: url(../img/letter_bg_02.jpg);
+    animation-delay: 48s; 
+}
+.cb-slideshow li:nth-child(6) { 
+    background-image: url(../img/letter_bg_03.jpg);
+    animation-delay: 60s; 
+}
+
+
+@keyframes imageAnimation { 
+>>>>>>> master:View/css/templatemo-style.css
 	0% {
 	    opacity: 0;
 	    animation-timing-function: ease-in;
@@ -253,20 +321,37 @@ p {
 }
 
 
+<<<<<<< HEAD:View/css/templatemo-style.css
 @media screen and (max-width: 1140px) {
     .cb-slideshow li div h3 { font-size: 140px }
 }
 @media screen and (max-width: 600px) {
+=======
+@media screen and (max-width: 1140px) { 
+    .cb-slideshow li div h3 { font-size: 140px }
+}
+@media screen and (max-width: 600px) { 
+>>>>>>> master:View/css/templatemo-style.css
     .cb-slideshow li div h3 { font-size: 80px }
 	.tm-content {
 		margin-top: 80px;
 	}
 }
 
+<<<<<<< HEAD:View/css/templatemo-style.css
 @media screen and (max-width: 576px) {
     .cb-slideshow li div h3 { font-size: 80px }
 
+=======
+@media screen and (max-width: 576px) { 
+    .cb-slideshow li div h3 { font-size: 80px }
+	
+>>>>>>> master:View/css/templatemo-style.css
 	.tm-btn-subscribe {
 		margin-top: 20px;
 	}
 }
+<<<<<<< HEAD:View/css/templatemo-style.css
+=======
+
+>>>>>>> master:View/css/templatemo-style.css
