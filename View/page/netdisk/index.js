@@ -69,14 +69,13 @@ function mouseout(c){
 }
 function enter(c){
   window.curdir=window.json_user.directory[c].name;
-  console.log("enterdirectory:"+window.curdir);
   if(window.json_user.directory[c].type=="dir"){
-    console.log("进入目录");
+    alert("进入目录");
     // 请求向后端请求当前目录
     console.log(window.json_user.directory[c].name);
     $.ajax({
       type:"GET",
-      url:"http://localhost/DistributedNetDisk/public/index.php/index/index/enterDir",
+      url:"https://hifafu.com/DistributedNetDisk/public/index.php/index/index/enterDir",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       data:{
@@ -103,14 +102,9 @@ function enter(c){
 }
 
 function getFile(type){
-  if(type=="showDefault"){
-    window.curdir="";
-  }
-
-  console.log("当前目录：/"+window.curdir);
   $.ajax({
     type:"GET",
-    url:"http://localhost/DistributedNetDisk/public/index.php/index/index/"+type,
+    url:"https://hifafu.com/DistributedNetDisk/public/index.php/index/index/"+type,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data:{
@@ -134,29 +128,36 @@ function getFile(type){
 function logout(){
 
   //$.removeCookie('usercookie',{ path: '/'});
-  window.location.href='http://localhost/netDisk_View/DistributedNetDisk_backend/View/page/login/index.html';
+  window.location.href='https://hifafu.com/DistributedNetDisk/public/static/View/page/login/index.html';
 
 }
 
 function fileUpload(){
-  var files = $('#file').prop('files');
-    var data = new FormData();
-    data.append("file",$("#file")[0].files[0])
-    data.append("username",username);
-    data.append("curdir", window.curdir);
-    $.ajax({
-          type: 'POST',
-          url: "http://localhost/DistributedNetDisk/public/index.php/upload",
-          data: data,
-          cache: false,
-          processData: false,
-          contentType: false,
-          success: function(res) {
-                  alert(res);
-                  getFile("showDefault");
+  // var files = $('#file').prop('files');
+  //   var data = new FormData();
+  //   data.append("file",$("#file")[0].files[0])
+  //   data.append("username",username);
+  //   data.append("curdir", window.curdir);
+  //   $.ajax({
+  //         type: 'POST',
+  //         url: "https://hifafu.com/DistributedNetDisk/public/index.php/upload",
+  //         data: data,
+  //         cache: false,
+  //         processData: false,
+  //         contentType: false,
+  //         success: function(res) {
+  //                 alert(res);
+  //                 getFile("showDefault");
+  //
+  //     },complete:function (res) {
+  //             console.log(res.responseText);
+  //       }
+  //   });
+  //
+    var fileForm = document.getElementById("file");
+    var upload = new Upload();
 
-      }
-    });
+        upload.addFileAndSend(fileForm);
 
 
 }
@@ -201,7 +202,7 @@ function newFolder(){
 
      $.ajax({
        type:"GET",
-       url:"http://localhost/DistributedNetDisk/public/index.php/index/NewFolder/newFolder",
+       url:"https://hifafu.com/DistributedNetDisk/public/index.php/index/NewFolder/newFolder",
        contentType: "application/json; charset=utf-8",
        dataType: "json",
        data:{
@@ -214,6 +215,7 @@ function newFolder(){
         getFile('showDefault');
       },
       complete:function(res){
+           console.log(window.curdir);
         alert(res.responseText);
         getFile('showDefault');
       }
@@ -229,10 +231,13 @@ function newFolder(){
 }
 $(document).ready(function(){
   console.log("$cookie:"+$.cookie('usercookie'));
-  if($.cookie('usercookie')==null){
-    alert("请先登录！");
-    window.location.href='http://localhost/netDisk_View/DistributedNetDisk_backend/View/page/login/index.html';
-  }
+
+  // if($.cookie('usercookie')==null){
+  //   alert("请先登录！");
+  //   window.location.href='https://hifafu.com/DistributedNetDisk/public/static/View/page/login/index.html';
+  // }
+
+
   window.username=$.cookie('usercookie');
   window.curdir="";
   $("#username").html(username);
@@ -250,9 +255,74 @@ $(document).ready(function(){
 
 
 
-})
+});
 
+function Upload(){
+    var xhr = new XMLHttpRequest();
+    var form_data = new FormData();
+    const LENGTH = 1024 * 1024;
+    var start = 0;
+    var end = start + LENGTH;
+    var blob;
+    var blob_num = 1;
+    var is_stop = 0
+    //对外方法，传入文件对象
+    this.addFileAndSend = function(that){
+        var file = that.files[0];
+        blob = cutFile(file);
+        sendFile(blob,file);
+        blob_num += 1;
+    }
+    //停止文件上传
+    this.stop = function(){
+        xhr.abort();
+        is_stop = 1;
+    }
+    //切割文件
+    function cutFile(file){
+        var file_blob = file.slice(start,end);
+        start = end;
+        end = start + LENGTH;
+        return file_blob;
+    };
+    //发送文件
+    function sendFile(blob,file){
+        var total_blob_num = Math.ceil(file.size *1.0/ LENGTH);
 
+        // alert(total_blob_num);
+        // alert(blob_num);
+        form_data.append('file',blob);
+        form_data.append('blob_num',blob_num);
+        form_data.append('total_blob_num',total_blob_num);
+        form_data.append('file_name',file.name);
+        form_data.append('filesize',file.size);
+        xhr.open('POST','https://hifafu.com/DistributedNetDisk/public/static/View/page/WebUploader/NetFileUpload.php',false);
+        xhr.onreadystatechange = function () {
+            var progress;
+            var progressObj = document.getElementById('finish');
+            if(total_blob_num == 1){
+                progress = '100%';
+            }else{
+                progress = Math.min(100,(blob_num/total_blob_num)* 100 ) +'%';
+                if(Math.min(100,(blob_num/total_blob_num)* 100) === 100){
+                    alert("完成");
+                    alert("下载地址: https://hifafu.com/DistributedNetDisk/public/static/View/page/WebUploader/upload/" + file.name);
+                }
+            }
+            // progressObj.style.width = progress;
+            var t = setTimeout(function(){
+                if(start < file.size && is_stop === 0){
+                    blob = cutFile(file);
+                    sendFile(blob,file);
+                    blob_num += 1;
+                }else{
+                    setTimeout(t);
+                }
+            },1000);
+        }
+        xhr.send(form_data);
+    }
+}
 
 
 

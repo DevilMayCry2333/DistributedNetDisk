@@ -3,9 +3,9 @@ function userLogin(){
 
 }
 function register(){
-	window.location.href="http://localhost/netDisk_View/DistributedNetDisk_backend/View/page/register/register.html"
-
+	window.location.href="https://hifafu.com/DistributedNetDisk/public/static/View/page/register/register.html"
 }
+
 $(document).ready(function(){
 //	$.removeCookie('usercookie',{ path: '/'});
 console.log($.cookie('usercookie'));
