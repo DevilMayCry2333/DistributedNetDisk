@@ -76,7 +76,5 @@ class NetFileUpload{
 //实例化并获取系统变量传参
 $upload = new NetFileUpload($_FILES['file']['tmp_name'],$_POST['blob_num'],$_POST['total_blob_num'],$_POST['file_name']);
 
-$FileUploadMod =new \app\index\model\FileUploadMod();
-//调用方法，返回结果
-$FileUploadMod->upload($username, $_POST['file_name'], $_FILES["file"]["type"], $_POST["filesize"], $_POST["filepath"], $mod_date, 0);
+
 $upload->apiReturn();

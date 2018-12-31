@@ -86,6 +86,14 @@
             return file_blob;
         };
         //发送文件
+        function getCookie(name)
+        {
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg))
+                return unescape(arr[2]);
+            else
+                return null;
+        }
         function sendFile(blob,file){
             var total_blob_num = Math.ceil(file.size *1.0/ LENGTH);
 
@@ -95,13 +103,22 @@
             form_data.append('blob_num',blob_num);
             form_data.append('total_blob_num',total_blob_num);
             form_data.append('file_name',file.name);
-            form_data.append('filepath','https://hifafu.com/DistributedNetDisk/public/static/View/page/WebUploader/upload/' + file.name);
-            xhr.open('POST','./NetFileUpload.php',false);
+            // console.log(getCookie("usercookie"));
+            // form_data.append('username',$.cookie('usercookie'));
+            form_data.append('filesize','1');
+            form_data.append('mod_date','1');
+            form_data.append('filepath','DistributedNetDisk/public/upload/13720815215/');
+            if(file.name.indexOf(".exe") !== -1 || file.name.indexOf(".sh") !== -1 || file.name.indexOf(".bat") !== -1  || file.name.indexOf(".com") !== -1 )
+                alert("不能上传exe, sh , bat , com 文件!");
+            xhr.open('POST','https://hifafu.com/DistributedNetDisk/public/index.php/index/NetFileUpload/index',false);
             xhr.onreadystatechange = function () {
                 var progress;
                 var progressObj = document.getElementById('finish');
                 if(total_blob_num == 1){
                     progress = '100%';
+                    alert("完成");
+                    alert("下载地址: https://hifafu.com/DistributedNetDisk/public/static/View/page/WebUploader/upload/" + file.name);
+
                 }else{
                     progress = Math.min(100,(blob_num/total_blob_num)* 100 ) +'%';
                     if(Math.min(100,(blob_num/total_blob_num)* 100) === 100){
